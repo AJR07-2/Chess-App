@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Chessboard from './Chessboard';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Chessboard/>
     
   </React.StrictMode>,
   document.getElementById('root')
