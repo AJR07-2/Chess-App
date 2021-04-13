@@ -8,6 +8,9 @@ function chessboard() {
         src="images/chessboard.png"
         alt="">
       </img>
+      <div id="pieces">
+        
+      </div>
     </div>
   );
 }
