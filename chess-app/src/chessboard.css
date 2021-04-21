@@ -1,9 +1,0 @@
-.board{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.chessBoard{
-    width: 50%;
-}
