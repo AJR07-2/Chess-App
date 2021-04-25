@@ -1,6 +1,6 @@
 import './pieces.css'
 
-function Pieces() {
+export default function Pieces() {
     var pieces: {src: string, row: number, column: number}[][] = []
     for (var i = 0; i < 8; i++){
         pieces.push([]);
@@ -32,4 +32,28 @@ function Pieces() {
     )
 }
 
-export default Pieces;
+export enum Colour{
+    none = 0,
+    black = 8,
+    white = 16
+}
+
+export enum PieceWorthiness{
+    none = 0,
+    pawn = 1,
+    knight = 3,
+    bishop = 3,
+    rook = 5,
+    queen = 9,
+    king = Number.MAX_SAFE_INTEGER
+}
+
+export enum Piece{
+    none = 0,
+    pawn = 1,
+    knight = 2,
+    bishop = 3,
+    rook = 4,
+    queen = 5,
+    king = 6
+}
