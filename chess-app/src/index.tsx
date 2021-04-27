@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './chessboard/chessboard';
+import App from './react_chessboard/react_chessboard';
 import reportWebVitals from './reportWebVitals';
-import Board from './chessboard/chessboard'
+import Board from './game/board'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,4 +14,8 @@ ReactDOM.render(
 
 reportWebVitals();
 
-let chessboard = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+let chessboard = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+console.log(chessboard);
+
+
+export default chessboard;

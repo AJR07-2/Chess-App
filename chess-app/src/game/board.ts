@@ -1,51 +1,26 @@
-import React from 'react';
-import './chessboard.css';
-import { Piece, PieceWorthiness, Colour } from '../pieces/pieces'
-import Pieces from '../pieces/pieces'
-
-export default function chessboard() {
-  return (
-    <div className="board">
-      <img className="chessBoard"
-        src="images/chessboard.png"
-        alt="">
-      </img>
-      <div id="pieces">
-        {
-          <Pieces/>
-        }
-      </div>
-    </div>
-  );
-}
-
-interface UniquePiece{
-  type: Piece,
-  points: PieceWorthiness,
-  player: Colour
-}
-
-export class Board {
-  public board: UniquePiece[][] = []
-  public fenString: String = ""
+import { Piece, PieceWorthiness, Colour, Square } from './pieces'
+export default class Board {
+  public board: Square[][] = [];
+  public fenString: String = "";
 
   constructor(fen: String) {
     console.log(this.decodeFen(fen));
   }
 
   decodeFen(fen: String) {
-    this.board = []
+    this.board = [];
     let symbols: Map<string, [Piece, PieceWorthiness]> = 
     new Map([
       ["p", [Piece.pawn, PieceWorthiness.pawn]],
       ["b", [Piece.bishop, PieceWorthiness.bishop]],
-      ["kn",[Piece.knight, PieceWorthiness.knight]],
+      ["n",[Piece.knight, PieceWorthiness.knight]],
       ["r", [Piece.rook, PieceWorthiness.rook]],
       ["q", [Piece.queen, PieceWorthiness.queen]],
       ["k", [Piece.king, PieceWorthiness.king]]
     ]);
 
     let row = 0;
+    this.board.push([]);
     for (let i = 0; i < fen.length; i++) {
       if (fen[i] === '/') {
         //check if its a new line
@@ -59,26 +34,28 @@ export class Board {
         } else {
           //no errors, insert spaces
           for (let j = 0; j < spaces; j++) {
-            this.board[row].push({ type: Piece.none, points: PieceWorthiness.none, player: Colour.none })
+            this.board[row].push(new Square({ colour: Colour.none, points: PieceWorthiness.none, pieceType: Piece.none }))
           }
         }
+
       } else {
         //its a character
         //decide the piece colour
         let pieceColour = 0
-        if (fen[i].toUpperCase() === fen[i]) pieceColour = Colour.white
+        if (fen[i].toUpperCase() === fen[i]) pieceColour = Colour.white;
         else pieceColour = Colour.black;
 
         //decide the piece type
-        let pieceType = symbols.get(fen[i].toLowerCase())
+        let pieceType = symbols.get(fen[i].toLowerCase());
 
-        if (pieceType == undefined) {
-          return "Fen String cannot be parsed"
+        if (pieceType === undefined) {
+          console.log(fen[i])
+          return "Fen String cannot be parsed";
         }
         //push it into the array!
-        this.board[row].push({ type: pieceType[0], points: pieceType[1], player: pieceColour})
+        this.board[row].push(new Square({ colour: pieceColour, points: pieceType[1], pieceType: pieceType[0] }));
       }
     }
-    return "Fen String parsed successfully"
+    return "Fen String parsed successfully";
   }
 }
