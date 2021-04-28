@@ -1,25 +1,32 @@
+import ReactDOM from 'react-dom';
+import React from 'react';
 import './react_pieces.css'
 import chessboard from '../index'
-import { Piece, PieceWorthiness, Colour, Square } from '../game/pieces'
+import { Piece, Colour } from '../game/pieces'
 
-export default function Pieces() {
-    let pieces = decodeChessboard();
-    return (
+export default class Pieces extends React.Component {
+    public pieces = decodeChessboard();
+
+    render() {
+        return (
         <div className="piece-specific">
-            {
-              pieces.map(function (array, i) {
-                  var html = array.map(function (object, j) {
-                      var id = i + " " + j;
+            {this.pieces.map(function (array, i) {
+                var html = array.map(function (object, j) {
+                    var id = i + " " + j;
                     return (
                         <img className="chess-piece" id={id} src={object.src} alt=""></img>
                     )
-                 })
-                 return html
-              })
+                })
+                return html
+            })
             }
         </div>
+        )
+    }
 
-    )
+    forceRender() {
+        this.forceUpdate();
+    }
 }
 
 function decodeChessboard() {
@@ -35,24 +42,48 @@ function decodeChessboard() {
       [Piece.king, "king"]
     ]);
 
-    for (var i = 0; i < 8; i++){
+    //if chessboard hasn't been created
+    if (chessboard == undefined) {
+        for (let i = 0; i < 8; i++){
+            pieces.push([]);
+            for (let j = 0; j < 8; j++){
+                pieces[i].push({
+                    src: "",
+                    row: i,
+                    column: j
+                }); 
+            }
+        }
+        return pieces;
+    }
+
+    for (let i = 0; i < 8; i++){
         pieces.push([]);
-        for (var j = 0; j < 8; j++){
+        for (let j = 0; j < 8; j++){
             //decode
             let piece = ""
             let details = chessboard.board[i][j].details;
-            if (details.colour !== Colour.none) {
+            if (!chessboard.board[i][j].exists) {
                 //sort out colour
-                if (details.colour == Colour.white) piece += "white_";
+                if (details.colour === Colour.white) piece += "white_";
                 else piece += "black_";
-                
+                let pieceName = symbols.get(details.pieceType);
+                if (pieceName !== undefined) piece += pieceName;
+                //push some properties
+                pieces[i].push({
+                    src: "images/chess_set/" + piece + ".png",
+                    row: i,
+                    column: j
+                });
+            } else {
+                pieces[i].push({
+                    src: "",
+                    row: i,
+                    column: j
+                });
             }
-            pieces[i].push({
-                src: "images/chess_set/white_pawn.png",
-                row: i,
-                column: j
-            });
         }
     }
     return pieces;
 }
+
