@@ -1,32 +1,28 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './react_pieces.css'
 import chessboard from '../index'
 import { Piece, Colour } from '../game/pieces'
 
-export default class Pieces extends React.Component {
-    public pieces = decodeChessboard();
+export default function Pieces() {
+    let pieces = decodeChessboard();
+    useEffect(() => {
+        console.log("interesting")
+    }, [chessboard]);
 
-    render() {
-        return (
-        <div className="piece-specific">
-            {this.pieces.map(function (array, i) {
-                var html = array.map(function (object, j) {
-                    var id = i + " " + j;
-                    return (
-                        <img className="chess-piece" id={id} src={object.src} alt=""></img>
-                    )
-                })
-                return html
+    return (
+    <div className="piece-specific">
+        {pieces.map(function (array, i) {
+            var html = array.map(function (object, j) {
+                var id = i + " " + j;
+                return (
+                    <img className="chess-piece" id={id} src={object.src} alt=""></img>
+                )
             })
-            }
-        </div>
-        )
-    }
-
-    forceRender() {
-        this.forceUpdate();
-    }
+            return html
+        })
+        }
+    </div>
+    )
 }
 
 function decodeChessboard() {
@@ -43,7 +39,7 @@ function decodeChessboard() {
     ]);
 
     //if chessboard hasn't been created
-    if (chessboard == undefined) {
+    if (chessboard === undefined) {
         for (let i = 0; i < 8; i++){
             pieces.push([]);
             for (let j = 0; j < 8; j++){
