@@ -9,7 +9,7 @@ export default class Board {
 
   decodeFen(fen: String) {
     this.board = [];
-    let symbols: Map<string, [Piece, PieceWorthiness]> = 
+    const symbols: Map<string, [Piece, PieceWorthiness]> = 
     new Map([
       ["p", [Piece.pawn, PieceWorthiness.pawn]],
       ["b", [Piece.bishop, PieceWorthiness.bishop]],
@@ -28,7 +28,7 @@ export default class Board {
         this.board.push([]);
       } else if (fen[i] >= '0' && fen[i] <= '9') {
         //check if its an int (spaces)
-        let spaces = parseInt(fen[i]);
+        const spaces = parseInt(fen[i]);
         if (spaces === 0 || isNaN(spaces)) {
           return "Fen String cannot be parsed"
         } else {
@@ -46,7 +46,7 @@ export default class Board {
         else pieceColour = Colour.black;
 
         //decide the piece type
-        let pieceType = symbols.get(fen[i].toLowerCase());
+        const pieceType = symbols.get(fen[i].toLowerCase());
 
         if (pieceType === undefined) {
           console.log(fen[i])

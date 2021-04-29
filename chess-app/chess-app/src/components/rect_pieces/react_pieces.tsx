@@ -4,7 +4,7 @@ import chessboard from '../index'
 import { Piece, Colour } from '../game/pieces'
 
 export default function Pieces() {
-    let pieces = decodeChessboard();
+    const pieces = decodeChessboard();
     useEffect(() => {
         console.log("interesting")
     }, [chessboard]);
@@ -12,8 +12,8 @@ export default function Pieces() {
     return (
     <div className="piece-specific">
         {pieces.map(function (array, i) {
-            var html = array.map(function (object, j) {
-                var id = i + " " + j;
+            const html = array.map(function (object, j) {
+                const id = i + " " + j;
                 return (
                     <img className="chess-piece" id={id} src={object.src} alt=""></img>
                 )
@@ -26,9 +26,9 @@ export default function Pieces() {
 }
 
 function decodeChessboard() {
-    var pieces: { src: string, row: number, column: number }[][] = [] //place to store all the pieces to be returned
+    const pieces: { src: string, row: number, column: number }[][] = [] //place to store all the pieces to be returned
 
-    let symbols: Map<Piece, string> = //where the parsing of type is involved
+    const symbols: Map<Piece, string> = //where the parsing of type is involved
     new Map([
       [Piece.pawn, "pawn"],
       [Piece.bishop, "bishop"],
@@ -58,12 +58,12 @@ function decodeChessboard() {
         for (let j = 0; j < 8; j++){
             //decode
             let piece = ""
-            let details = chessboard.board[i][j].details;
+            const details = chessboard.board[i][j].details;
             if (!chessboard.board[i][j].exists) {
                 //sort out colour
                 if (details.colour === Colour.white) piece += "white_";
                 else piece += "black_";
-                let pieceName = symbols.get(details.pieceType);
+                const pieceName = symbols.get(details.pieceType);
                 if (pieceName !== undefined) piece += pieceName;
                 //push some properties
                 pieces[i].push({
